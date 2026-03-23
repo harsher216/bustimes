@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>61 Bus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── Themes ── */
+  .t-linen {
+    --bg: #f5f0ea; --surface: #faf8f5; --border: #e6dfd7; --border-s: #ede8e1;
+    --text: #1a1714; --t2: #5c554d; --t3: #9a9189; --t4: #c4bdb5;
+    --ca: #c4523a; --cb: #d4943a; --cc: #5a7f5e; --cd: #3a6084;
+    --nx: #ede7df; --pb: #ebe5dd; --warn: #c07a15; --danger: #b8321a;
+  }
+  .t-midnight {
+    --bg: #101012; --surface: #18181b; --border: #27272a; --border-s: #202023;
+    --text: #fafafa; --t2: #a1a1aa; --t3: #52525b; --t4: #3f3f46;
+    --ca: #f87171; --cb: #fbbf24; --cc: #34d399; --cd: #60a5fa;
+    --nx: #1e1e22; --pb: #27272a; --warn: #fbbf24; --danger: #f87171;
+  }
+  .t-noir {
+    --bg: #f8f8f6; --surface: #fff; --border: #e5e5e2; --border-s: #f0f0ec;
+    --text: #111; --t2: #555; --t3: #999; --t4: #ccc;
+    --ca: #111; --cb: #444; --cc: #888; --cd: #333;
+    --nx: #eee; --pb: #ebebeb; --warn: #92790a; --danger: #aa2222;
+  }
+  .t-lavender {
+    --bg: #f4f2f8; --surface: #faf9fc; --border: #e2dded; --border-s: #ebe8f2;
+    --text: #1a1520; --t2: #5a4f6a; --t3: #9088a0; --t4: #b8b0c8;
+    --ca: #7c5cbf; --cb: #b06ab3; --cc: #5a8fa0; --cd: #c07a5a;
+    --nx: #e8e4f0; --pb: #e5e0ee; --warn: #c09030; --danger: #b04050;
+  }
+  .t-moss {
+    --bg: #f0f2ec; --surface: #f7f9f4; --border: #dde1d6; --border-s: #e6e9e0;
+    --text: #1a1e16; --t2: #4d5544; --t3: #8a9480; --t4: #b2bca8;
+    --ca: #5a7a3a; --cb: #2a8a6a; --cc: #8a6a2a; --cd: #5a5a8a;
+    --nx: #e5e9de; --pb: #e2e6da; --warn: #a07820; --danger: #9a3020;
+  }
+  .t-sand {
+    --bg: #faf5f0; --surface: #fefbf8; --border: #eeddd0; --border-s: #f4e8de;
+    --text: #2a1810; --t2: #6e4a38; --t3: #a88878; --t4: #ccb5a8;
+    --ca: #c44a2a; --cb: #e08a30; --cc: #8a6540; --cd: #6a4a30;
+    --nx: #f2e6da; --pb: #eddcce; --warn: #d48a20; --danger: #c43a1a;
+  }
+  .t-frost {
+    --bg: #f0f4f8; --surface: #f8fafc; --border: #dce4ec; --border-s: #e8eef4;
+    --text: #0f1c2e; --t2: #4a5d75; --t3: #8a9bb5; --t4: #b0bdd0;
+    --ca: #2563eb; --cb: #0891b2; --cc: #6d28d9; --cd: #0d9488;
+    --nx: #e2eaf2; --pb: #dde5ed; --warn: #c07a1a; --danger: #dc2626;
+  }
+  .t-dusk {
+    --bg: #13111a; --surface: #1a1824; --border: #2a2838; --border-s: #222030;
+    --text: #e8e6f0; --t2: #9896a8; --t3: #5c5a6e; --t4: #3a384a;
+    --ca: #c084fc; --cb: #f0abfc; --cc: #67e8f9; --cd: #fda4af;
+    --nx: #201e2c; --pb: #2a2838; --warn: #fcd34d; --danger: #fb7185;
+  }
+
+  .t-rose {
+    --bg: #faf4f4; --surface: #fdf9f9; --border: #eedcdc; --border-s: #f4e6e6;
+    --text: #1c1416; --t2: #6b4f55; --t3: #a08890; --t4: #ccb8bd;
+    --ca: #be3455; --cb: #d47a40; --cc: #5a8080; --cd: #8a5a90;
+    --nx: #f0e4e4; --pb: #ebdcdd; --warn: #c07a1a; --danger: #b83040;
+  }
+  .t-ember {
+    --bg: #f8f0ec; --surface: #fdf8f5; --border: #e8d8ce; --border-s: #f0e4dc;
+    --text: #201410; --t2: #6a4838; --t3: #a08070; --t4: #c8b0a0;
+    --ca: #d44020; --cb: #e87830; --cc: #a86020; --cd: #783818;
+    --nx: #f0e0d4; --pb: #ecdaca; --warn: #d48a20; --danger: #c43a1a;
+  }
+  .t-ocean {
+    --bg: #eef3f7; --surface: #f6f9fc; --border: #d4dee8; --border-s: #e2eaf0;
+    --text: #0e1a28; --t2: #3a5068; --t3: #7a90a8; --t4: #a8baca;
+    --ca: #1a5fa0; --cb: #0a8a7a; --cc: #4060b0; --cd: #2a7a5a;
+    --nx: #dfe8f0; --pb: #d8e2ec; --warn: #c08a20; --danger: #c03a30;
+  }
+  .t-carbon {
+    --bg: #161618; --surface: #1e1e20; --border: #2e2e32; --border-s: #252528;
+    --text: #e0e0e0; --t2: #909098; --t3: #58585e; --t4: #3a3a40;
+    --ca: #ff6b6b; --cb: #ffa94d; --cc: #51cf66; --cd: #339af0;
+    --nx: #222226; --pb: #2a2a2e; --warn: #ffa94d; --danger: #ff6b6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Setup ── */
+  .setup {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 100vh; padding: 2rem; text-align: center;
+  }
+  .setup h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.4rem; }
+  .setup p { color: var(--t2); max-width: 420px; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.87rem; }
+  .setup ol { text-align: left; max-width: 420px; margin-bottom: 2rem; line-height: 2.1; color: var(--t2); font-size: 0.82rem; }
+  .setup a { color: var(--ca); text-decoration: none; }
+  .setup a:hover { text-decoration: underline; }
+  .setup input {
+    background: var(--surface); border: 1.5px solid var(--border); color: var(--text);
+    padding: 0.75rem 1rem; border-radius: 10px; width: 100%; max-width: 380px;
+    font-size: 0.82rem; margin-bottom: 0.75rem; font-family: 'JetBrains Mono', monospace;
+  }
+  .setup input:focus { outline: none; border-color: var(--t3); }
+  .setup button {
+    background: var(--text); color: var(--bg); border: none; padding: 0.65rem 2.2rem;
+    border-radius: 10px; font-size: 0.85rem; cursor: pointer; font-family: inherit; font-weight: 600;
+  }
+  .setup button:hover { opacity: 0.85; }
+  .setup-err { color: var(--danger); margin-top: 1rem; display: none; font-size: 0.8rem; }
+
+  /* ── Dashboard ── */
+  .dash { display: none; max-width: 680px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+  nav .left { display: flex; align-items: center; gap: 0.5rem; }
+  nav h1 { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.02em; }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+  .dot.err { background: var(--danger); }
+  .meta { font-size: 0.58rem; color: var(--t4); }
+  nav .right { display: flex; align-items: center; gap: 0.4rem; }
+  .clock { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--t3); margin-right: 0.25rem; }
+  .ibtn {
+    background: none; border: 1px solid var(--border); color: var(--t3);
+    width: 26px; height: 26px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0; transition: border-color 0.15s, color 0.15s;
+  }
+  .ibtn:hover { border-color: var(--t3); color: var(--t2); }
+  .ibtn.txt { width: auto; padding: 0 0.4rem; font-size: 0.55rem; font-family: inherit; }
+
+  /* ── Theme picker ── */
+  .tp {
+    overflow: visible; max-height: 0; opacity: 0;
+    transition: max-height 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+    margin-bottom: 0;
+  }
+  .tp.open { max-height: 120px; opacity: 1; margin-bottom: 1.5rem; }
+  .tp-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .tp-item { text-align: center; }
+  .tp-sw {
+    width: 32px; height: 32px; border-radius: 50%; border: 2.5px solid var(--border);
+    cursor: pointer; padding: 0; position: relative;
+    transition: border-color 0.15s;
+    background: none; outline-offset: 2px;
+  }
+  .tp-sw:hover { border-color: var(--t2); }
+  .tp-sw.on { border-color: var(--text); }
+  .tp-sw .swatch-inner {
+    width: 100%; height: 100%; border-radius: 50%; overflow: hidden;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+  }
+  .tp-sw .swatch-inner span { display: block; }
+  .tp-label {
+    font-size: 0.48rem; text-align: center; margin-top: 4px;
+    color: var(--t3); font-weight: 500; letter-spacing: 0.02em;
+  }
+
+  /* ── Hero ── */
+  .hero { text-align: center; padding: 2rem 0 2.5rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--border); }
+  .hero-sub { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--t3); font-weight: 600; margin-bottom: 0.5rem; }
+  .hero-time { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--text); font-variant-numeric: tabular-nums; }
+  .hero-info { margin-top: 0.75rem; font-size: 0.78rem; color: var(--t2); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .hero-info .cd { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--t3); background: var(--pb); padding: 0.15rem 0.5rem; border-radius: 5px; }
+  .tag { display: inline-block; padding: 0.12rem 0.4rem; border-radius: 4px; font-size: 0.62rem; font-weight: 700; color: #fff; }
+  .tag.a { background: var(--ca); } .tag.b { background: var(--cb); } .tag.c { background: var(--cc); } .tag.d { background: var(--cd); }
+
+  /* ── Table ── */
+  .tbl-head {
+    display: grid; grid-template-columns: 44px 1fr 70px 80px; gap: 0.75rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+    font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--t4); font-weight: 600;
+  }
+  .tbl-head .r { text-align: right; }
+  .row {
+    display: grid; grid-template-columns: 44px 1fr 70px 80px; gap: 0.75rem;
+    align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border-s);
+  }
+  .row.nx {
+    background: var(--nx); margin: 0 -2rem; padding: 0.85rem 2rem;
+    border-bottom: 1px solid var(--border); border-top: 1px solid var(--border);
+  }
+
+  .pill { font-size: 0.68rem; font-weight: 700; padding: 0.22rem 0; border-radius: 5px; text-align: center; color: #fff; }
+  .pill.a { background: var(--ca); } .pill.b { background: var(--cb); } .pill.c { background: var(--cc); } .pill.d { background: var(--cd); }
+
+  .ri-stop { font-size: 0.76rem; color: var(--text); font-weight: 500; line-height: 1.3; }
+  .ri-dest { font-size: 0.65rem; color: var(--t3); }
+  .ri-nx { font-size: 0.55rem; color: var(--t4); font-weight: 500; margin-left: 0.3rem; }
+
+  .rm { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; color: var(--text); text-align: right; white-space: nowrap; }
+  .rt { text-align: right; }
+  .rt-time { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--t2); font-variant-numeric: tabular-nums; }
+  .rt-arr { font-size: 0.55rem; color: var(--t4); margin-top: 1px; }
+
+  .row.nx .rm { font-size: 1rem; font-weight: 700; }
+  .row.nx .rt-time { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+  .row.nx .ri-stop { font-weight: 600; }
+
+  .soon .rm { color: var(--warn); font-weight: 600; }
+  .now .rm { color: var(--danger); font-weight: 700; }
+  .row.nx.soon .rm { color: var(--warn); }
+  .row.nx.now .rm { color: var(--danger); }
+  .now .pill { animation: pulse 1.5s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+  .empty { color: var(--t3); padding: 3rem 0; font-size: 0.85rem; text-align: center; }
+  .loading { display: flex; align-items: center; justify-content: center; min-height: 50vh; font-size: 0.85rem; color: var(--t3); }
+
+  @media (max-width: 600px) {
+    .dash { padding: 1.5rem 1.25rem; }
+    .hero-time { font-size: 3.2rem; }
+    .tbl-head, .row { grid-template-columns: 38px 1fr 55px 70px; gap: 0.5rem; }
+    .row.nx { margin: 0 -1.25rem; padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="setup" id="setupScreen">
+  <h1>Bus Dashboard</h1>
+  <p>Live 61 bus departures. Paste a Google Maps API key to get started.</p>
+  <ol>
+    <li>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a></li>
+    <li>Enable <strong>Directions API</strong> + <strong>Maps JavaScript API</strong></li>
+    <li>Create an API key &amp; paste below</li>
+  </ol>
+  <input type="text" id="apiKeyInput" placeholder="API key">
+  <button onclick="saveApiKey()">Start</button>
+  <p class="setup-err" id="setupError"></p>
+</div>
+
+<div class="dash" id="dashboard">
+  <nav>
+    <div class="left">
+      <h1>61 Departures</h1>
+      <span class="dot" id="statusDot"></span>
+      <span class="meta" id="statusText"></span>
+    </div>
+    <div class="right">
+      <div class="clock" id="clock"></div>
+      <button class="ibtn" onclick="toggleFs()" title="Fullscreen">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+      </button>
+      <button class="ibtn" onclick="document.getElementById('tp').classList.toggle('open')" title="Theme">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="ibtn txt" onclick="resetKey()">key</button>
+    </div>
+  </nav>
+
+  <div class="tp" id="tp">
+    <div class="tp-row" id="tpRow"></div>
+  </div>
+
+  <div id="content"><div class="loading">Loading...</div></div>
+</div>
+
+<script>
+const THEMES = [
+  { id:'linen',    colors:['#c4523a','#d4943a','#5a7f5e','#3a6084'] },
+  { id:'sand',     colors:['#c44a2a','#e08a30','#8a6540','#6a4a30'] },
+  { id:'rose',     colors:['#be3455','#d47a40','#5a8080','#8a5a90'] },
+  { id:'ember',    colors:['#d44020','#e87830','#a86020','#783818'] },
+  { id:'moss',     colors:['#5a7a3a','#2a8a6a','#8a6a2a','#5a5a8a'] },
+  { id:'lavender', colors:['#7c5cbf','#b06ab3','#5a8fa0','#c07a5a'] },
+  { id:'frost',    colors:['#2563eb','#0891b2','#6d28d9','#0d9488'] },
+  { id:'ocean',    colors:['#1a5fa0','#0a8a7a','#4060b0','#2a7a5a'] },
+  { id:'noir',     colors:['#111','#444','#888','#333'] },
+  { id:'midnight', colors:['#f87171','#fbbf24','#34d399','#60a5fa'] },
+  { id:'dusk',     colors:['#c084fc','#f0abfc','#67e8f9','#fda4af'] },
+  { id:'carbon',   colors:['#ff6b6b','#ffa94d','#51cf66','#339af0'] },
+];
+
+const ORIGIN = '1643 Shady Ave, Pittsburgh, PA 15217';
+const DESTINATION = 'Carnegie Mellon University, Pittsburgh, PA';
+const TARGET_ROUTES = ['61A', '61B', '61C', '61D'];
+const REFRESH = 60000;
+
+const STOP_NAMES = {
+  'Forbes Ave + Shady': 'Forbes & Shady', 'Forbes Ave + Shady Ave': 'Forbes & Shady',
+  'Murray Ave + Bartlett': 'Murray Ave', 'Murray Ave + Bartlett St': 'Murray Ave',
+  'Forbes + Murray FS': 'Forbes & Murray',
+};
+function friendlyStop(s) { return STOP_NAMES[s] || s.replace(' Ave + ', ' & ').replace(' St', ''); }
+
+let ds, timer;
+
+function buildSwatches() {
+  document.getElementById('tpRow').innerHTML = THEMES.map(t =>
+    `<div class="tp-item"><button class="tp-sw" data-t="${t.id}" onclick="setTheme('${t.id}')">` +
+    `<div class="swatch-inner">${t.colors.map(c=>`<span style="background:${c}"></span>`).join('')}</div>` +
+    `</button><div class="tp-label">${t.id}</div></div>`
+  ).join('');
+}
+buildSwatches();
+
+function setTheme(t) {
+  document.body.className = 't-' + t;
+  localStorage.setItem('theme', t);
+  document.querySelectorAll('.tp-sw').forEach(s => s.classList.toggle('on', s.dataset.t === t));
+}
+setTheme(localStorage.getItem('theme') || 'linen');
+
+function tick() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true});
+}
+setInterval(tick,1000); tick();
+
+function saveApiKey() {
+  const k = document.getElementById('apiKeyInput').value.trim();
+  if(!k){document.getElementById('setupError').textContent='Enter a key.';document.getElementById('setupError').style.display='block';return;}
+  localStorage.setItem('gk', k); boot(k);
+}
+function resetKey() {
+  const old = localStorage.getItem('gk') || '';
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('setupScreen').style.display='flex';
+  document.getElementById('apiKeyInput').value = old;
+  if(timer)clearInterval(timer);
+}
+
+function boot(k) {
+  document.getElementById('setupScreen').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  const s=document.createElement('script');
+  s.src=`https://maps.googleapis.com/maps/api/js?key=${k}&callback=init`;
+  s.onerror=()=>st('Load failed',true);
+  document.head.appendChild(s);
+}
+
+function init() {
+  ds=new google.maps.DirectionsService();
+  load(); timer=setInterval(load,REFRESH);
+}
+window.init=init;
+
+async function load() {
+  st('...');
+  try {
+    const [a,b,c]=await Promise.all([qd(new Date()),qd(new Date(Date.now()+30*6e4)),qd(new Date(Date.now()+60*6e4))]);
+    render(parse([...a,...b,...c]));
+    st(new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}));
+  } catch(e) { console.error(e); st('Error',true); }
+}
+
+function qd(t) {
+  return new Promise((res,rej)=>{
+    ds.route({origin:ORIGIN,destination:DESTINATION,travelMode:'TRANSIT',
+      transitOptions:{departureTime:t,modes:['BUS'],routingPreference:'FEWER_TRANSFERS'},
+      provideRouteAlternatives:true
+    },(r,s)=>{ s==='OK'?res(r.routes):s==='ZERO_RESULTS'?res([]):rej(new Error(s)); });
+  });
+}
+
+function parse(routes) {
+  const seen=new Set(),out=[];
+  for(const r of routes){
+    const leg=r.legs[0];
+    for(const step of leg.steps){
+      if(step.travel_mode!=='TRANSIT')continue;
+      const t=step.transit, nm=t.line.short_name||t.line.name||'';
+      if(!TARGET_ROUTES.some(x=>nm.startsWith(x)||nm===x))continue;
+      const dep=t.departure_time.value, k=`${nm}-${dep.getTime()}`;
+      if(seen.has(k))continue; seen.add(k);
+      let w=0;
+      for(const s of leg.steps){if(s===step)break;if(s.travel_mode==='WALKING')w+=Math.round(s.duration.value/60);}
+      out.push({route:nm,dep,stop:t.departure_stop.name,headsign:t.headsign||t.line.name,walk:w,
+        arr:leg.arrival_time.value,leave:new Date(dep.getTime()-w*6e4)});
+    }
+  }
+  out.sort((a,b)=>a.dep-b.dep);
+  return out;
+}
+
+function L(r){return r.replace('61','').toLowerCase();}
+
+function render(buses) {
+  const now=new Date();
+  const up=buses.filter(b=>b.dep>now);
+  if(!up.length){document.getElementById('content').innerHTML='<div class="empty">No upcoming buses.</div>';return;}
+
+  const best=up[0];
+  const ml=Math.max(0,Math.round((best.leave-now)/6e4));
+
+  let h='';
+  h+=`<div class="hero">`;
+  h+=`<div class="hero-sub">Leave house by</div>`;
+  h+=`<div class="hero-time">${fmt(best.leave)}</div>`;
+  h+=`<div class="hero-info"><span class="cd">${ml<=0?'now':ml+' min'}</span> <span class="tag ${L(best.route)}">${best.route}</span> ${friendlyStop(best.stop)}</div>`;
+  h+=`</div>`;
+
+  h+=`<div class="tbl-head"><span>Route</span><span>Stop</span><span class="r">In</span><span class="r">Departs</span></div>`;
+
+  const seenStops=new Set();
+  for(const b of up.slice(0,8)){
+    const m=Math.round((b.dep-now)/6e4);
+    const urg=m<=3?'now':m<=8?'soon':'';
+    const nx=!seenStops.has(b.stop);
+    if(nx)seenStops.add(b.stop);
+    h+=`<div class="row${nx?' nx':''} ${urg}">`;
+    h+=`<div class="pill ${L(b.route)}">${b.route}</div>`;
+    h+=`<div><div class="ri-stop">${friendlyStop(b.stop)}${nx?'<span class="ri-nx">NEXT</span>':''}</div><div class="ri-dest">${b.headsign}</div></div>`;
+    h+=`<div class="rm">${m<=0?'now':m+' min'}</div>`;
+    h+=`<div class="rt"><div class="rt-time">${fmt(b.dep)}</div><div class="rt-arr">arr ${fmt(b.arr)}</div></div>`;
+    h+=`</div>`;
+  }
+
+  document.getElementById('content').innerHTML=h;
+}
+
+function fmt(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});}
+function st(m,e){document.getElementById('statusText').textContent=m;document.getElementById('statusDot').classList.toggle('err',!!e);}
+function toggleFs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
+
+const sk=localStorage.getItem('gk');
+if(sk)boot(sk); else document.getElementById('setupScreen').style.display='flex';
+</script>
+</body>
+</html>
