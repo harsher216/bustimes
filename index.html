@@ -161,11 +161,26 @@
   .big-card:first-child .big-stop { font-size: 1.6rem; }
   .big-dest { font-size: 0.9rem; color: var(--t3); }
   .big-card-right { text-align: right; flex-shrink: 0; }
+  .big-label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--t3); font-weight: 600; margin-bottom: 0.2rem;
+  }
+  .big-card:first-child .big-label { font-size: 0.75rem; }
   .big-time {
     font-family: 'JetBrains Mono', monospace; font-size: 3.5rem; font-weight: 800;
     color: var(--text); letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums;
   }
   .big-card:first-child .big-time { font-size: 5rem; }
+  .big-leave {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 600;
+    color: var(--t2); margin-top: 0.5rem;
+  }
+  .big-card:first-child .big-leave { font-size: 1.8rem; }
+  .big-leave-label {
+    font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--t4); font-weight: 600; margin-top: 0.6rem; margin-bottom: 0.15rem;
+  }
+  .big-card:first-child .big-leave-label { font-size: 0.65rem; }
   .big-min {
     font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 600;
     color: var(--t2); margin-top: 0.3rem;
@@ -338,9 +353,13 @@ function render(buses) {
     h+=`<div class="big-route ${L(b.route)}">${b.route}</div>`;
     h+=`<div class="big-info"><div class="big-stop">${friendlyStop(b.stop)}</div><div class="big-dest">${b.headsign}</div></div>`;
     h+=`</div>`;
+    const leaveMin=Math.max(0,Math.round((b.leave-now)/6e4));
     h+=`<div class="big-card-right">`;
+    h+=`<div class="big-label">Bus departs</div>`;
     h+=`<div class="big-time">${fmt(b.dep)}</div>`;
-    h+=`<div class="big-min ${urgCls}">${m<=0?'NOW':m+' min'}</div>`;
+    h+=`<div class="big-leave-label">Leave house</div>`;
+    h+=`<div class="big-leave">${fmt(b.leave)}</div>`;
+    h+=`<div class="big-min ${urgCls}">${leaveMin<=0?'GO NOW':leaveMin+' min'}</div>`;
     h+=`</div>`;
     h+=`</div>`;
   }
