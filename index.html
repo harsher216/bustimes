@@ -89,31 +89,8 @@
     min-height: 100vh; -webkit-font-smoothing: antialiased;
   }
 
-  /* ── Setup ── */
-  .setup {
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; min-height: 100vh; padding: 2rem; text-align: center;
-  }
-  .setup h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 0.4rem; }
-  .setup p { color: var(--t2); max-width: 420px; margin-bottom: 1.5rem; line-height: 1.6; font-size: 0.87rem; }
-  .setup ol { text-align: left; max-width: 420px; margin-bottom: 2rem; line-height: 2.1; color: var(--t2); font-size: 0.82rem; }
-  .setup a { color: var(--ca); text-decoration: none; }
-  .setup a:hover { text-decoration: underline; }
-  .setup input {
-    background: var(--surface); border: 1.5px solid var(--border); color: var(--text);
-    padding: 0.75rem 1rem; border-radius: 10px; width: 100%; max-width: 380px;
-    font-size: 0.82rem; margin-bottom: 0.75rem; font-family: 'JetBrains Mono', monospace;
-  }
-  .setup input:focus { outline: none; border-color: var(--t3); }
-  .setup button {
-    background: var(--text); color: var(--bg); border: none; padding: 0.65rem 2.2rem;
-    border-radius: 10px; font-size: 0.85rem; cursor: pointer; font-family: inherit; font-weight: 600;
-  }
-  .setup button:hover { opacity: 0.85; }
-  .setup-err { color: var(--danger); margin-top: 1rem; display: none; font-size: 0.8rem; }
-
   /* ── Dashboard ── */
-  .dash { display: none; max-width: 680px; margin: 0 auto; padding: 2.5rem 2rem; }
+  .dash { max-width: 680px; margin: 0 auto; padding: 2.5rem 2rem; }
 
   nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
   nav .left { display: flex; align-items: center; gap: 0.5rem; }
@@ -220,20 +197,8 @@
 </head>
 <body>
 
-<div class="setup" id="setupScreen">
-  <h1>Bus Dashboard</h1>
-  <p>Live 61 bus departures. Paste a Google Maps API key to get started.</p>
-  <ol>
-    <li>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a></li>
-    <li>Enable <strong>Directions API</strong> + <strong>Maps JavaScript API</strong></li>
-    <li>Create an API key &amp; paste below</li>
-  </ol>
-  <input type="text" id="apiKeyInput" placeholder="API key">
-  <button onclick="saveApiKey()">Start</button>
-  <p class="setup-err" id="setupError"></p>
-</div>
 
-<div class="dash" id="dashboard">
+<div class="dash" id="dashboard" style="display:block">
   <nav>
     <div class="left">
       <h1>61 Departures</h1>
@@ -248,7 +213,6 @@
       <button class="ibtn" onclick="document.getElementById('tp').classList.toggle('open')" title="Theme">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       </button>
-      <button class="ibtn txt" onclick="resetKey()">key</button>
     </div>
   </nav>
 
@@ -279,6 +243,7 @@ const ORIGIN = '1643 Shady Ave, Pittsburgh, PA 15217';
 const DESTINATION = 'Carnegie Mellon University, Pittsburgh, PA';
 const TARGET_ROUTES = ['61A', '61B', '61C', '61D'];
 const REFRESH = 60000;
+const API_KEY = 'AIzaSyDX9bwNd1Nb7Mp3aATK577ohpgL8mBaCTc';
 
 const STOP_NAMES = {
   'Forbes Ave + Shady': 'Forbes & Shady', 'Forbes Ave + Shady Ave': 'Forbes & Shady',
@@ -310,24 +275,9 @@ function tick() {
 }
 setInterval(tick,1000); tick();
 
-function saveApiKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  if(!k){document.getElementById('setupError').textContent='Enter a key.';document.getElementById('setupError').style.display='block';return;}
-  localStorage.setItem('gk', k); boot(k);
-}
-function resetKey() {
-  const old = localStorage.getItem('gk') || '';
-  document.getElementById('dashboard').style.display='none';
-  document.getElementById('setupScreen').style.display='flex';
-  document.getElementById('apiKeyInput').value = old;
-  if(timer)clearInterval(timer);
-}
-
-function boot(k) {
-  document.getElementById('setupScreen').style.display='none';
-  document.getElementById('dashboard').style.display='block';
+function boot() {
   const s=document.createElement('script');
-  s.src=`https://maps.googleapis.com/maps/api/js?key=${k}&callback=init`;
+  s.src=`https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=init`;
   s.onerror=()=>st('Load failed',true);
   document.head.appendChild(s);
 }
@@ -416,8 +366,7 @@ function fmt(d){return d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-di
 function st(m,e){document.getElementById('statusText').textContent=m;document.getElementById('statusDot').classList.toggle('err',!!e);}
 function toggleFs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
 
-const sk=localStorage.getItem('gk');
-if(sk)boot(sk); else document.getElementById('setupScreen').style.display='flex';
+boot();
 </script>
 </body>
 </html>
