@@ -90,7 +90,7 @@
   }
 
   /* ── Dashboard ── */
-  .dash { max-width: 680px; margin: 0 auto; padding: 2.5rem 2rem; }
+  .dash { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
 
   nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
   nav .left { display: flex; align-items: center; gap: 0.5rem; }
@@ -136,62 +136,58 @@
     color: var(--t3); font-weight: 500; letter-spacing: 0.02em;
   }
 
-  /* ── Hero ── */
-  .hero { text-align: center; padding: 2rem 0 2.5rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--border); }
-  .hero-sub { font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--t3); font-weight: 600; margin-bottom: 0.5rem; }
-  .hero-time { font-size: 5rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--text); font-variant-numeric: tabular-nums; }
-  .hero-info { margin-top: 0.75rem; font-size: 0.78rem; color: var(--t2); display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
-  .hero-info .cd { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--t3); background: var(--pb); padding: 0.15rem 0.5rem; border-radius: 5px; }
-  .tag { display: inline-block; padding: 0.12rem 0.4rem; border-radius: 4px; font-size: 0.62rem; font-weight: 700; color: #fff; }
-  .tag.a { background: var(--ca); } .tag.b { background: var(--cb); } .tag.c { background: var(--cc); } .tag.d { background: var(--cd); }
-
-  /* ── Table ── */
-  .tbl-head {
-    display: grid; grid-template-columns: 44px 1fr 70px 80px; gap: 0.75rem;
-    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
-    font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--t4); font-weight: 600;
+  /* ── Big glanceable cards ── */
+  .big-cards { display: flex; flex-direction: column; gap: 1.5rem; }
+  .big-card {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 2rem; border-radius: 16px; border: 2px solid var(--border);
+    background: var(--surface);
   }
-  .tbl-head .r { text-align: right; }
-  .row {
-    display: grid; grid-template-columns: 44px 1fr 70px 80px; gap: 0.75rem;
-    align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border-s);
+  .big-card:first-child {
+    padding: 2.5rem 2.5rem; border-width: 3px;
+    background: var(--nx);
   }
-  .row.nx {
-    background: var(--nx); margin: 0 -2rem; padding: 0.85rem 2rem;
-    border-bottom: 1px solid var(--border); border-top: 1px solid var(--border);
+  .big-card-left { display: flex; align-items: center; gap: 1.5rem; }
+  .big-route {
+    font-size: 4rem; font-weight: 900; color: #fff; width: 6rem; height: 6rem;
+    border-radius: 16px; display: flex; align-items: center; justify-content: center;
+    letter-spacing: -0.02em; flex-shrink: 0;
   }
-
-  .pill { font-size: 0.68rem; font-weight: 700; padding: 0.22rem 0; border-radius: 5px; text-align: center; color: #fff; }
-  .pill.a { background: var(--ca); } .pill.b { background: var(--cb); } .pill.c { background: var(--cc); } .pill.d { background: var(--cd); }
-
-  .ri-stop { font-size: 0.76rem; color: var(--text); font-weight: 500; line-height: 1.3; }
-  .ri-dest { font-size: 0.65rem; color: var(--t3); }
-  .ri-nx { font-size: 0.55rem; color: var(--t4); font-weight: 500; margin-left: 0.3rem; }
-
-  .rm { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 500; color: var(--text); text-align: right; white-space: nowrap; }
-  .rt { text-align: right; }
-  .rt-time { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--t2); font-variant-numeric: tabular-nums; }
-  .rt-arr { font-size: 0.55rem; color: var(--t4); margin-top: 1px; }
-
-  .row.nx .rm { font-size: 1rem; font-weight: 700; }
-  .row.nx .rt-time { font-size: 0.88rem; font-weight: 500; color: var(--text); }
-  .row.nx .ri-stop { font-weight: 600; }
-
-  .soon .rm { color: var(--warn); font-weight: 600; }
-  .now .rm { color: var(--danger); font-weight: 700; }
-  .row.nx.soon .rm { color: var(--warn); }
-  .row.nx.now .rm { color: var(--danger); }
-  .now .pill { animation: pulse 1.5s ease infinite; }
+  .big-card:first-child .big-route { font-size: 5.5rem; width: 8rem; height: 8rem; border-radius: 20px; }
+  .big-route.a { background: var(--ca); } .big-route.b { background: var(--cb); }
+  .big-route.c { background: var(--cc); } .big-route.d { background: var(--cd); }
+  .big-info { display: flex; flex-direction: column; gap: 0.2rem; }
+  .big-stop { font-size: 1.3rem; font-weight: 600; color: var(--text); }
+  .big-card:first-child .big-stop { font-size: 1.6rem; }
+  .big-dest { font-size: 0.9rem; color: var(--t3); }
+  .big-card-right { text-align: right; flex-shrink: 0; }
+  .big-time {
+    font-family: 'JetBrains Mono', monospace; font-size: 3.5rem; font-weight: 800;
+    color: var(--text); letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .big-card:first-child .big-time { font-size: 5rem; }
+  .big-min {
+    font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 600;
+    color: var(--t2); margin-top: 0.3rem;
+  }
+  .big-card:first-child .big-min { font-size: 2rem; }
+  .big-min.warn { color: var(--warn); }
+  .big-min.danger { color: var(--danger); animation: pulse 1.5s ease infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-  .empty { color: var(--t3); padding: 3rem 0; font-size: 0.85rem; text-align: center; }
-  .loading { display: flex; align-items: center; justify-content: center; min-height: 50vh; font-size: 0.85rem; color: var(--t3); }
+  .empty { color: var(--t3); padding: 3rem 0; font-size: 1.2rem; text-align: center; }
+  .loading { display: flex; align-items: center; justify-content: center; min-height: 50vh; font-size: 1rem; color: var(--t3); }
 
   @media (max-width: 600px) {
-    .dash { padding: 1.5rem 1.25rem; }
-    .hero-time { font-size: 3.2rem; }
-    .tbl-head, .row { grid-template-columns: 38px 1fr 55px 70px; gap: 0.5rem; }
-    .row.nx { margin: 0 -1.25rem; padding-left: 1.25rem; padding-right: 1.25rem; }
+    .dash { padding: 1.25rem 1rem; }
+    .big-card { flex-direction: column; text-align: center; gap: 1rem; padding: 1.2rem; }
+    .big-card:first-child { padding: 1.5rem; }
+    .big-card-left { flex-direction: column; gap: 0.75rem; }
+    .big-card-right { text-align: center; }
+    .big-route { font-size: 3rem; width: 5rem; height: 5rem; }
+    .big-card:first-child .big-route { font-size: 4rem; width: 6rem; height: 6rem; }
+    .big-time { font-size: 2.5rem; }
+    .big-card:first-child .big-time { font-size: 3.5rem; }
   }
 </style>
 </head>
@@ -333,31 +329,22 @@ function render(buses) {
   const up=buses.filter(b=>b.dep>now);
   if(!up.length){document.getElementById('content').innerHTML='<div class="empty">No upcoming buses.</div>';return;}
 
-  const best=up[0];
-  const ml=Math.max(0,Math.round((best.leave-now)/6e4));
-
-  let h='';
-  h+=`<div class="hero">`;
-  h+=`<div class="hero-sub">Leave house by</div>`;
-  h+=`<div class="hero-time">${fmt(best.leave)}</div>`;
-  h+=`<div class="hero-info"><span class="cd">${ml<=0?'now':ml+' min'}</span> <span class="tag ${L(best.route)}">${best.route}</span> ${friendlyStop(best.stop)}</div>`;
-  h+=`</div>`;
-
-  h+=`<div class="tbl-head"><span>Route</span><span>Stop</span><span class="r">In</span><span class="r">Departs</span></div>`;
-
-  const seenStops=new Set();
-  for(const b of up.slice(0,8)){
+  let h='<div class="big-cards">';
+  for(const b of up.slice(0,3)){
     const m=Math.round((b.dep-now)/6e4);
-    const urg=m<=3?'now':m<=8?'soon':'';
-    const nx=!seenStops.has(b.stop);
-    if(nx)seenStops.add(b.stop);
-    h+=`<div class="row${nx?' nx':''} ${urg}">`;
-    h+=`<div class="pill ${L(b.route)}">${b.route}</div>`;
-    h+=`<div><div class="ri-stop">${friendlyStop(b.stop)}${nx?'<span class="ri-nx">NEXT</span>':''}</div><div class="ri-dest">${b.headsign}</div></div>`;
-    h+=`<div class="rm">${m<=0?'now':m+' min'}</div>`;
-    h+=`<div class="rt"><div class="rt-time">${fmt(b.dep)}</div><div class="rt-arr">arr ${fmt(b.arr)}</div></div>`;
+    const urgCls=m<=3?'danger':m<=8?'warn':'';
+    h+=`<div class="big-card">`;
+    h+=`<div class="big-card-left">`;
+    h+=`<div class="big-route ${L(b.route)}">${b.route}</div>`;
+    h+=`<div class="big-info"><div class="big-stop">${friendlyStop(b.stop)}</div><div class="big-dest">${b.headsign}</div></div>`;
+    h+=`</div>`;
+    h+=`<div class="big-card-right">`;
+    h+=`<div class="big-time">${fmt(b.dep)}</div>`;
+    h+=`<div class="big-min ${urgCls}">${m<=0?'NOW':m+' min'}</div>`;
+    h+=`</div>`;
     h+=`</div>`;
   }
+  h+='</div>';
 
   document.getElementById('content').innerHTML=h;
 }
