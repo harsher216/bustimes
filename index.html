@@ -335,7 +335,7 @@ function render(buses) {
     const urgCls=m<=3?'danger':m<=8?'warn':'';
     h+=`<div class="big-card">`;
     h+=`<div class="big-card-left">`;
-    h+=`<div class="big-route ${L(b.route)}">${b.route}</div>`;
+    h+=`<div class="big-route ${L(b.route)}">${b.route.replace('61','')}</div>`;
     h+=`<div class="big-info"><div class="big-stop">${friendlyStop(b.stop)}</div><div class="big-dest">${b.headsign}</div></div>`;
     h+=`</div>`;
     h+=`<div class="big-card-right">`;
